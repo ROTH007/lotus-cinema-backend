@@ -1,0 +1,5 @@
+node_modules/
+.env
+db/lotus.db
+db/lotus.db-wal
+db/lotus.db-shm
