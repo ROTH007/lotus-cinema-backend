@@ -1,0 +1,308 @@
+@import "tailwindcss";
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  width: max-content;
+  animation: scroll 30s linear infinite;
+}
+
+body{
+  background-color: black;
+}
+*{
+  font-family: "Dangrek", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@import "tailwindcss";
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  width: max-content;
+  animation: scroll 30s linear infinite;
+}
+
+* {
+  font-family: "Dangrek", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  background-color: black;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ============================================================
+   LIGHT THEME
+   The app is written with dark Tailwind classes (bg-gray-950,
+   text-white, …). Rather than rewrite every component, light mode
+   remaps those same classes. Add `class="light"` on <html> and the
+   whole site flips. Handled by ThemeContext.
+   ============================================================ */
+html.light body {
+  background-color: #f6f7f9;
+  color: #111827;
+}
+
+/* backgrounds: dark greys -> light greys */
+html.light .bg-black { background-color: #ffffff !important; }
+html.light .bg-gray-950 { background-color: #f6f7f9 !important; }
+html.light .bg-gray-900 { background-color: #ffffff !important; }
+html.light .bg-gray-800 { background-color: #eef0f3 !important; }
+html.light .bg-gray-700 { background-color: #dfe3e8 !important; }
+html.light .bg-gray-900\/60,
+html.light .bg-gray-950\/60,
+html.light .bg-gray-950\/50 { background-color: #ffffff !important; }
+
+/* gradients used on page shells */
+html.light .bg-gradient-to-b.from-gray-900,
+html.light .bg-gradient-to-b.from-\[\#0f0f0f\] {
+  background-image: none !important;
+  background-color: #f6f7f9 !important;
+}
+
+/* text */
+html.light .text-white { color: #111827 !important; }
+html.light .text-gray-300 { color: #374151 !important; }
+html.light .text-gray-400 { color: #4b5563 !important; }
+html.light .text-gray-500 { color: #6b7280 !important; }
+html.light .text-gray-600 { color: #6b7280 !important; }
+
+/* borders */
+html.light .border-gray-800 { border-color: #e5e7eb !important; }
+html.light .border-gray-700 { border-color: #d1d5db !important; }
+html.light .border-gray-600 { border-color: #cbd5e1 !important; }
+
+/* hovers */
+html.light .hover\:bg-gray-800:hover { background-color: #e5e7eb !important; }
+html.light .hover\:bg-gray-700:hover { background-color: #d1d5db !important; }
+html.light .hover\:bg-gray-600:hover { background-color: #cbd5e1 !important; }
+
+/* cards / panels get a soft shadow instead of relying on contrast */
+html.light .rounded-2xl.border,
+html.light .rounded-xl.border {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* gradient-clipped headings: darken the gradient so they stay readable */
+html.light .bg-clip-text.from-red-500 { --tw-gradient-from: #dc2626 !important; }
+html.light .bg-clip-text.to-purple-500 { --tw-gradient-to: #7c3aed !important; }
+
+/* the seat map screen glow is too strong on white */
+html.light .shadow-\[0_0_40px_10px_rgba\(239\,68\,68\,0\.4\)\] {
+  box-shadow: 0 0 30px 6px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* keep the ticket readable when printing */
+@media print {
+  html.light body,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
+
+@import "tailwindcss";
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  width: max-content;
+  animation: scroll 30s linear infinite;
+}
+
+* {
+  font-family: "Dangrek", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  background-color: black;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ============================================================
+   LIGHT THEME
+   The app is written with dark Tailwind classes (bg-gray-950,
+   text-white, …). Rather than rewrite every component, light mode
+   remaps those same classes. Add `class="light"` on <html> and the
+   whole site flips. Handled by ThemeContext.
+   ============================================================ */
+html.light body {
+  background-color: #f6f7f9;
+  color: #111827;
+}
+
+/* backgrounds: dark greys -> light greys */
+html.light .bg-black { background-color: #ffffff !important; }
+html.light .bg-gray-950 { background-color: #f6f7f9 !important; }
+html.light .bg-gray-900 { background-color: #ffffff !important; }
+html.light .bg-gray-800 { background-color: #eef0f3 !important; }
+html.light .bg-gray-700 { background-color: #dfe3e8 !important; }
+html.light .bg-gray-900\/60,
+html.light .bg-gray-950\/60,
+html.light .bg-gray-950\/50 { background-color: #ffffff !important; }
+
+/* gradients used on page shells */
+html.light .bg-gradient-to-b.from-gray-900,
+html.light .bg-gradient-to-b.from-\[\#0f0f0f\] {
+  background-image: none !important;
+  background-color: #f6f7f9 !important;
+}
+
+/* text */
+html.light .text-white { color: #111827 !important; }
+html.light .text-gray-300 { color: #374151 !important; }
+html.light .text-gray-400 { color: #4b5563 !important; }
+html.light .text-gray-500 { color: #6b7280 !important; }
+html.light .text-gray-600 { color: #6b7280 !important; }
+
+/* borders */
+html.light .border-gray-800 { border-color: #e5e7eb !important; }
+html.light .border-gray-700 { border-color: #d1d5db !important; }
+html.light .border-gray-600 { border-color: #cbd5e1 !important; }
+
+/* hovers */
+html.light .hover\:bg-gray-800:hover { background-color: #e5e7eb !important; }
+html.light .hover\:bg-gray-700:hover { background-color: #d1d5db !important; }
+html.light .hover\:bg-gray-600:hover { background-color: #cbd5e1 !important; }
+
+/* cards / panels get a soft shadow instead of relying on contrast */
+html.light .rounded-2xl.border,
+html.light .rounded-xl.border {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* gradient-clipped headings: darken the gradient so they stay readable */
+html.light .bg-clip-text.from-red-500 { --tw-gradient-from: #dc2626 !important; }
+html.light .bg-clip-text.to-purple-500 { --tw-gradient-to: #7c3aed !important; }
+
+/* the seat map screen glow is too strong on white */
+html.light .shadow-\[0_0_40px_10px_rgba\(239\,68\,68\,0\.4\)\] {
+  box-shadow: 0 0 30px 6px rgba(239, 68, 68, 0.25) !important;
+}
+
+/* keep the ticket readable when printing */
+@media print {
+  html.light body,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
+
+
+/* ============================================================
+   PRINT — turns the Reports tab into a proper paper document.
+   Everything chrome-like (navbar, sidebar, footer, buttons) is
+   hidden; the report itself is forced to black-on-white so it
+   doesn't burn a whole ink cartridge on a dark background.
+   ============================================================ */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 12mm;
+  }
+
+  /* hide anything not part of the report */
+  nav,
+  footer,
+  aside,
+  .no-print {
+    display: none !important;
+  }
+
+  /* force a light document regardless of the site theme */
+  html,
+  html.light,
+  html.dark,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .print-area,
+  .print-area * {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+  }
+
+  /* cards become bordered boxes */
+  .print-area .rounded-2xl,
+  .print-area .rounded-xl {
+    border: 1px solid #999 !important;
+    border-radius: 4px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 8mm;
+  }
+
+  /* keep the coloured bars visible on paper */
+  .print-area .bg-gradient-to-r,
+  .print-area .bg-yellow-500,
+  .print-area .bg-green-500,
+  .print-area .bg-red-600,
+  .print-area .bg-gray-800 {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .print-area .bg-gradient-to-r { background: #444 !important; }
+  .print-area .bg-yellow-500    { background: #888 !important; }
+  .print-area .bg-green-500     { background: #555 !important; }
+  .print-area .bg-red-600       { background: #222 !important; }
+  .print-area .bg-gray-800      { background: #e5e5e5 !important; }
+
+  /* tables read better with rules on paper */
+  .print-area table { width: 100%; border-collapse: collapse; }
+  .print-area th,
+  .print-area td {
+    border-bottom: 1px solid #ddd !important;
+    padding: 4px 6px !important;
+    font-size: 10pt !important;
+  }
+  .print-area th { border-bottom: 1.5px solid #000 !important; font-weight: 700; }
+
+  /* scrollable panels must print in full */
+  .print-area .overflow-y-auto,
+  .print-area .max-h-72 {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* the print-only letterhead */
+  .print-header { display: block !important; }
+
+  a[href]:after { content: none !important; }
+}
+
+/* letterhead is hidden on screen, shown only on paper */
+.print-header { display: none; }
