@@ -3,7 +3,7 @@ require('dotenv').config({ quiet: true });   // loads backend/.env if present
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { initDb, USE_ORACLE } = require('./db');
+const { initDb, USE_ORACLE, USE_POSTGRES } = require('./db');
 
 const app = express();
 app.use(cors());
@@ -19,7 +19,12 @@ app.use('/api/concessions', require('./routes/concessions'));
 app.use('/api/acleda', require('./routes/acleda'));
 app.use('/api/manager', require('./routes/manager'));
 
-app.get('/api/health', (req, res) => res.json({ ok: true, mode: USE_ORACLE ? 'oracle' : 'sqlite-demo' }));
+// One label used everywhere — health check, startup banner, error hints —
+// so all three always agree instead of drifting out of sync.
+const mode = USE_ORACLE ? 'oracle' : USE_POSTGRES ? 'postgres' : 'sqlite-demo';
+const modeLabel = USE_ORACLE ? 'ORACLE' : USE_POSTGRES ? 'POSTGRES (persistent)' : 'SQLite demo';
+
+app.get('/api/health', (req, res) => res.json({ ok: true, mode }));
 
 // Serve the built React app if present (after `npm run build` in ../frontend)
 const dist = path.join(__dirname, '..', 'frontend', 'dist');
@@ -33,11 +38,11 @@ app.get('*', (req, res, next) => {
 
 const PORT = process.env.PORT || 4000;
 
-// Connect (and seed, in demo mode) BEFORE accepting requests.
+// Connect (and seed, in demo/Postgres-first-boot mode) BEFORE accepting requests.
 initDb()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`\n🪷  Lotus Cinema API  →  http://localhost:${PORT}   [${USE_ORACLE ? 'ORACLE' : 'SQLite demo'}]`);
+      console.log(`\n🪷  Lotus Cinema API  →  http://localhost:${PORT}   [${modeLabel}]`);
       console.log(`\n   Manager login:   manager@lotus.com  /  manager123`);
       console.log(`   Customer login:  sophea@mail.com    /  user123\n`);
     });
@@ -47,6 +52,9 @@ initDb()
     if (USE_ORACLE) {
       console.error('    Check ORA_USER / ORA_PASSWORD / ORA_CONNECT, and that Oracle is running.');
       console.error('    Tip: unset USE_ORACLE to fall back to the SQLite demo.\n');
+    } else if (USE_POSTGRES) {
+      console.error('    Check DATABASE_URL is set correctly (your Neon connection string).');
+      console.error('    Tip: unset USE_POSTGRES to fall back to the SQLite demo.\n');
     }
     process.exit(1);
   });
