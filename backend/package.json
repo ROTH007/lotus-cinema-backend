@@ -2,7 +2,7 @@
   "name": "lotus-cinema-backend",
   "version": "1.0.0",
   "type": "commonjs",
-  "description": "Node/Express API for Lotus Cinema \u2014 Oracle primary, SQLite demo fallback",
+  "description": "Node/Express API for Lotus Cinema — Oracle primary, SQLite demo fallback",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -15,7 +15,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.23.0"
   },
   "optionalDependencies": {
     "oracledb": "^6.10.0"
