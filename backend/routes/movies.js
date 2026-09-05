@@ -185,12 +185,22 @@ router.delete('/:id', auth, managerOnly, async (req, res) => {
   res.json({ ok: true });
 });
 
+// Re-links a movie to its selected genres.
+//
+// Portability note: this used to be `INSERT OR IGNORE INTO movie_genres`,
+// which is SQLite-only syntax — Postgres throws a syntax error on `OR
+// IGNORE`, which crashed this route with no valid HTTP response, and the
+// browser reported that as a CORS failure (no response = no CORS header
+// to read, even though CORS itself was never the problem).
+//
+// The `OR IGNORE` was never actually load-bearing: the DELETE right
+// above always clears every existing genre link for this movie first,
+// so the INSERT that follows can never collide with an existing row.
+// A plain INSERT is correct here on SQLite, Oracle, and Postgres alike.
 async function setGenres(db, movieId, genreIds) {
   if (!Array.isArray(genreIds)) return;
-  await db
-.prepare('DELETE FROM movie_genres WHERE movie_id=?').run(movieId);
-  const ins = await db
-    .prepare('INSERT OR IGNORE INTO movie_genres (movie_id, genre_id) VALUES (?,?)');
+  await db.prepare('DELETE FROM movie_genres WHERE movie_id=?').run(movieId);
+  const ins = db.prepare('INSERT INTO movie_genres (movie_id, genre_id) VALUES (?,?)');
   for (const gid of genreIds) await ins.run(movieId, gid);
 }
 
