@@ -485,7 +485,15 @@ function genSeats(hallId) {
 }
 
 /* Same idea as genSeats() above, but through the async Postgres handle
- * instead of the raw synchronous better-sqlite3 connection. */
+ * instead of the raw synchronous better-sqlite3 connection.
+ *
+ * Built as ONE bulk multi-row INSERT rather than one query per seat.
+ * Seeding against a real network-hosted database (Neon, not localhost)
+ * means every single query is a round trip to a server on the other
+ * side of the world — a hall with 96 seats done one-by-one is 96 round
+ * trips; batched, it's 1. That difference is minutes vs. seconds the
+ * first time this ever runs.
+ */
 async function genSeatsPg(handle, hallId) {
   const hall = await handle
     .prepare('SELECT seat_rows, seat_cols FROM halls WHERE hall_id = ?')
@@ -494,15 +502,20 @@ async function genSeatsPg(handle, hallId) {
   const cols = hall?.seat_cols || 12;
   const vipFrom = rows - Math.max(1, Math.round(rows / 4));
   const premFrom = rows - Math.max(2, Math.round(rows / 2));
+
+  const placeholders = [];
+  const params = [];
   for (let r = 1; r <= rows; r++) {
     const row = String.fromCharCode(64 + r);
     const type = r > vipFrom ? 'VIP' : r > premFrom ? 'PREMIUM' : 'STANDARD';
     for (let c = 1; c <= cols; c++) {
-      await handle
-        .prepare('INSERT INTO seats (hall_id, seat_row, seat_col, seat_type) VALUES (?,?,?,?)')
-        .run(hallId, row, c, type);
+      placeholders.push('(?,?,?,?)');
+      params.push(hallId, row, c, type);
     }
   }
+  await handle
+    .prepare(`INSERT INTO seats (hall_id, seat_row, seat_col, seat_type) VALUES ${placeholders.join(',')}`)
+    .run(...params);
 }
 
 /* ---- create showtime + open all seats with tiered pricing ----
@@ -549,10 +562,19 @@ async function createShowtime(movieId, hallId, showDate, startTime, basePrice, s
     const showtimeId = info.lastInsertRowid;
     const seats = await h.prepare('SELECT seat_id, seat_type FROM seats WHERE hall_id = ?').all(hallId);
     const bump = { VIP: 4, PREMIUM: 2, STANDARD: 0 };
-    for (const s of seats) {
+    // one bulk INSERT for every seat in the hall, instead of one round
+    // trip per seat — same reasoning as genSeatsPg above.
+    if (seats.length) {
+      const placeholders = seats.map(() => '(?,?,?,?)').join(',');
+      const params = seats.flatMap((s) => [
+        showtimeId,
+        s.seat_id,
+        'AVAILABLE',
+        basePrice + (bump[s.seat_type] || 0),
+      ]);
       await h
-        .prepare('INSERT INTO show_seats (showtime_id, seat_id, status, price) VALUES (?,?,?,?)')
-        .run(showtimeId, s.seat_id, 'AVAILABLE', basePrice + (bump[s.seat_type] || 0));
+        .prepare(`INSERT INTO show_seats (showtime_id, seat_id, status, price) VALUES ${placeholders}`)
+        .run(...params);
     }
     return showtimeId;
   }
